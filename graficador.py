@@ -85,9 +85,16 @@ while 1:
                     #print x, y   
                     coordX = int(x)
                     coordY = int(y)
+
+                    lastCoordY = coordY
+
                     #print(coordX, coordY)
                     print(coordY)
-                    #line, fig = ActualizateElGrafico(coordY)
+
+                    if (lastCoordY != coordY):
+                        line, fig = ActualizateElGrafico(coordY)
+                    else:
+                        print 'Y no ha cambiado'
 
 	except serial.serialutil.SerialException:
         	print "Data could not be read"
