@@ -41,8 +41,8 @@ def ActualizateElGrafico(Y):
 # Creacion de los puntos del grafico inicial
 # ------------------------------------------
 Xinicial  = 0
-Xfinal    = 2*math.pi
-Npuntos_X = 100
+Xfinal    = 10
+Npuntos_X = 10
 # 
 X = np.linspace(Xinicial, Xfinal , Npuntos_X )  # Puntos del eje X
 Y = X						# Puntos del eje Y	
@@ -50,8 +50,8 @@ Y = X						# Puntos del eje Y
 El_Titulo = 'Titulo de Mierda'
 El_EjeX  = 'Eje equis x'
 El_EjeY  =' Eje Y de mierda'
-Lim_X = [0, 2*math.pi]
-Lim_Y = [-1, 1]
+Lim_X = [0, 10]
+Lim_Y = [0, 256]
 
 
 
@@ -73,28 +73,25 @@ ser = serial.Serial('/dev/ttyACM0', 9600, timeout=None)
 # 	line,fig = ActualizateElGrafico( np.sin( X + math.pi/(10)*num_plots ) )
 # 	num_plots += 1
 # print(num_plots)
+lastCoordY = None
 
+Y=[]
+counter=0
 while 1:
 	try:
-		a = ser.readline()      # Lee el string que sale el puerto serial
-                coords = a.split(',,,')
-                #print(coords, len(coords))
-                if (len(coords) > 1) :
-                    x = coords[0]
-                    y = coords[1]
-                    #print x, y   
-                    coordX = int(x)
-                    coordY = int(y)
-
-                    lastCoordY = coordY
-
-                    #print(coordX, coordY)
-                    print(coordY)
-
-                    if (lastCoordY != coordY):
-                        line, fig = ActualizateElGrafico(coordY)
-                    else:
-                        print 'Y no ha cambiado'
+            a = ser.readline()      # Lee el string que sale el puerto serial
+            print(a)     
+            #line, fig = ActualizateElGrafico(int(a))
+            if ( counter < 10 ) :
+                Y.append(int(a))
+                print Y,a
+                counter+=1
+                if ( len(Y) == 10 ) :
+                    line, fig = ActualizateElGrafico(Y)
+		    ser.flushOutput()
+                    counter = 0     
+                    Y=[]
+        
 
 	except serial.serialutil.SerialException:
         	print "Data could not be read"
