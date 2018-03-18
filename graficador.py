@@ -37,19 +37,25 @@ def ActualizateElGrafico(Y):
 	return line, fig
 
 
+# =====================================================================================================================
+#                           Inicio de todo la cosa
+# =====================================================================================================================
+
+NumElements = 12 
+
 # ------------------------------------------
 # Creacion de los puntos del grafico inicial
 # ------------------------------------------
 Xinicial  = 0
 Xfinal    = 10
-Npuntos_X = 10
+Npuntos_X = NumElements 
 # 
 X = np.linspace(Xinicial, Xfinal , Npuntos_X )  # Puntos del eje X
 Y = X						# Puntos del eje Y	
 #
-El_Titulo = 'Titulo de Mierda'
-El_EjeX  = 'Eje equis x'
-El_EjeY  =' Eje Y de mierda'
+El_Titulo = 'Titulo del la Cancion '
+El_EjeX  = 'Tiempo'
+El_EjeY  = 'Valor del sensor '
 Lim_X = [0, 10]
 Lim_Y = [0, 256]
 
@@ -80,13 +86,13 @@ counter=0
 while 1:
 	try:
             a = ser.readline()      # Lee el string que sale el puerto serial
-            print(a)     
+            #print(a)     
             #line, fig = ActualizateElGrafico(int(a))
-            if ( counter < 10 ) :
+            if ( counter < NumElements) :
                 Y.append(int(a))
-                print Y,a
+                #print Y,a
                 counter+=1
-                if ( len(Y) == 10 ) :
+                if ( len(Y) == NumElements) :
                     line, fig = ActualizateElGrafico(Y)
 		    ser.flushOutput()
                     counter = 0     
